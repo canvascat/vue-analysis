@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/31235016?s=60&v=4" type="image/png">
   <title>Vue</title>
-  <script src="./vue.js"></script>
+  <!-- <script src="vue/dist/vue.js"></script> -->
 </head>
 <body>
-  <div id="app">
-    {{ fullName }}
-  </div>
-</body>
-<script>
+<div id="app"></div>
+<script type="module">
+import Vue from './vue.esm.browser.js'
 new Vue({
   el: '#app',
+  render (h) {
+    return h('div', { attrs: { id: 'app' } }, this.fullName)
+  },
   data: {
     message: 'Hello Vue!',
     firstName: 'Foo',
@@ -27,4 +29,5 @@ new Vue({
   }
 })
 </script>
+</body>
 </html>
