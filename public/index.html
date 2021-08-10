@@ -12,15 +12,29 @@
 <div id="app"></div>
 <script type="module">
 import Vue from './vue.esm.browser.js'
-new Vue({
+
+const vm = new Vue({
   el: '#app',
   render (h) {
     return h('div', { attrs: { id: 'app' } }, this.fullName)
   },
-  data: {
-    message: 'Hello Vue!',
-    firstName: 'Foo',
-    lastName: 'Bar'
+  data () {
+    return {
+      message: 'Hello Vue!',
+      firstName: 'Foo',
+      lastName: 'Bar',
+      data: {
+        firstName: '',
+        lastName: '',
+      }
+    }
+  },
+  created () {
+    this.data.firstName = 'Foo'
+    this.data.lastName = 'Bar'
+    console.log(this.firstName)
+    this.data = this.$options.data().data
+    console.log(this.data, this.$options)
   },
   computed: {
     fullName () {
@@ -28,6 +42,7 @@ new Vue({
     }
   }
 })
+globalThis.vm = vm
 </script>
 </body>
 </html>

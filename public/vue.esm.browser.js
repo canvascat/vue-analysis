@@ -588,8 +588,7 @@ if (typeof Set !== 'undefined' && isNative(Set)) {
 } else {
   // a non-standard Set polyfill that only works with primitive keys.
   _Set = class Set   {
-    
-    constructor () {
+        constructor () {
       this.set = Object.create(null);
     }
     has (key) {
@@ -712,9 +711,6 @@ let uid = 0;
  */
 class Dep {
   
-  
-  
-
   constructor () {
     this.id = uid++;
     this.subs = [];
@@ -768,17 +764,10 @@ function popTarget () {
 /*  */
 
 class VNode {
+  // rendered in this component's scope
   
-  
-  
-  
-  
-  
-   // rendered in this component's scope
-  
-  
-   // component instance
-   // component placeholder node
+  // component instance
+  // component placeholder node
 
   // strictly internal
    // contains raw HTML? (server only)
@@ -788,9 +777,6 @@ class VNode {
    // is a cloned node?
    // is a v-once node?
    // async component factory function
-  
-  
-  
    // real context vm for functional nodes
    // for SSR caching
    // used to store functional render context for devtools
@@ -944,9 +930,7 @@ function toggleObserving (value) {
  * collect dependencies and dispatch updates.
  */
 class Observer {
-  
-  
-   // number of vms that have this object as root $data
+       // number of vms that have this object as root $data
 
   constructor (value) {
     this.value = value;
@@ -972,6 +956,7 @@ class Observer {
    */
   walk (obj) {
     const keys = Object.keys(obj);
+    // 遍历对象属性,对每一个属性使用Object.defineProperty,遇到对象使用Observer
     for (let i = 0; i < keys.length; i++) {
       defineReactive$$1(obj, keys[i]);
     }
@@ -982,6 +967,7 @@ class Observer {
    */
   observeArray (items) {
     for (let i = 0, l = items.length; i < l; i++) {
+      // 观测数组的每一项
       observe(items[i]);
     }
   }
@@ -1049,7 +1035,8 @@ function defineReactive$$1 (
   shallow
 ) {
   const dep = new Dep();
-
+  // 获取属性描述,如果为不可配置则不处理
+  // 对于不会该改变的属性可以提前将 configurable 设置为false,或者使用 Object.freeze 处理
   const property = Object.getOwnPropertyDescriptor(obj, key);
   if (property && property.configurable === false) {
     return
@@ -1061,15 +1048,17 @@ function defineReactive$$1 (
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key];
   }
-
+  // 默认为深度监听,将对属性的值遍历
   let childOb = !shallow && observe(val);
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val;
+      // 收集依赖
       if (Dep.target) {
         dep.depend();
+        // 处理深度监听的情况, 同时处理数组
         if (childOb) {
           childOb.dep.depend();
           if (Array.isArray(value)) {
@@ -4450,24 +4439,6 @@ let uid$2 = 0;
  * This is used for both the $watch() api and directives.
  */
 class Watcher {
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
   constructor (
     vm,
     expOrFn,
@@ -10977,15 +10948,6 @@ var baseDirectives = {
 
 class CodegenState {
   
-  
-  
-  
-  
-  
-  
-  
-  
-
   constructor (options) {
     this.options = options;
     this.warn = options.warn || baseWarn;
